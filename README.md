@@ -3,7 +3,8 @@
 A lightweight, local-first web UI to interact with Large Language Models using [Ollama](https://ollama.com).  
 Perfect for testing LLMs like `llama3`, `mistral`, or `gemma` on your own machine — no cloud, no API cost.
 
----
+
+[logo](assets/logo.png) 
 
 ## 🚀 Features
 
