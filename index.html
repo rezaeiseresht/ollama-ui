@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <Title>Ollama Assistant</Title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center p-4">
+  <h1 class="text-3xl font-bold mb-4 text-gray-800">Ollama Assistant</h1>
+
+  <div id="chat" class="w-full max-w-2xl bg-white shadow-md rounded-lg p-4 space-y-4 overflow-y-auto h-[400px]">
+    <!-- پیام‌ها اینجا نمایش داده می‌شن -->
+  </div>
+
+  <div class="w-full max-w-2xl mt-4 flex gap-2">
+    <textarea id="prompt" rows="3" class="flex-1 p-2 border rounded-md" placeholder="Enter a prompt ..."></textarea>
+    <button onclick="sendPrompt()" class="bg-blue-500 text-white px-4 rounded-md">Send</button>
+  </div>
+
+  <script>
+    async function sendPrompt() {
+      const prompt = document.getElementById('prompt').value;
+      const chat = document.getElementById('chat');
+      chat.innerHTML += `<div class="text-left text-blue-700 font-medium">🧑: ${prompt}</div>`;
+      document.getElementById('prompt').value = "";
+
+      const res = await fetch('http://localhost:11434/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model: 'llama3', prompt, stream: false })
+      });
+
+      const data = await res.json();
+      chat.innerHTML += `<div class="text-left text-gray-800">🤖: ${data.response}</div>`;
+      chat.scrollTop = chat.scrollHeight;
+    }
+  </script>
+</body>
+</html>
